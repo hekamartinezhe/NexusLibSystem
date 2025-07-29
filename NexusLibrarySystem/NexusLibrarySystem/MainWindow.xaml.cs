@@ -1,28 +1,43 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace NexusLibrarySystem
 {
-    /// <summary>
-    /// Lógica de interacción para MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindow()
         {
             InitializeComponent();
+
+            // Opcional: carga inicial de la página Dashboard
+            MainFrame.Navigate(new Views.DashboardPage());
+        }
+
+        private void Dashboard_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Navigate(new Views.DashboardPage());
+        }
+
+        private void Books_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Navigate(new Views.BooksPage());
+        }
+
+        private void Users_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Navigate(new Views.UsersPage());
+        }
+
+        private void Profile_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Navigate(new Views.ProfilePage());
+        }
+
+        private void Logout_Click(object sender, RoutedEventArgs e)
+        {
+            // Cierra la aplicación o vuelve a la ventana login
+            Application.Current.Shutdown();
         }
     }
 }
+

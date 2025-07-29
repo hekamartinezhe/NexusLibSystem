@@ -1,12 +1,48 @@
 ﻿<Window x:Class="NexusLibrarySystem.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:NexusLibrarySystem"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Nexus Library System" Height="600" Width="1000"
+        WindowStartupLocation="CenterScreen" ResizeMode="CanResize">
+
     <Grid>
-        
+        <!-- Define rows: Top bar and main content -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <!-- Top bar -->
+            <RowDefinition Height="*"/>
+            <!-- Content area -->
+        </Grid.RowDefinitions>
+
+        <!-- Define columns: Left menu and main frame -->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <!-- Left menu -->
+            <ColumnDefinition Width="*"/>
+            <!-- Main content frame -->
+        </Grid.ColumnDefinitions>
+
+        <!-- Top bar -->
+        <DockPanel Grid.Row="0" Grid.ColumnSpan="2" Background="#34495E" LastChildFill="True">
+            <TextBlock Text="Nexus Library System" Foreground="White"
+                       VerticalAlignment="Center" Margin="20,0" FontSize="20"/>
+            <!-- Display current user name -->
+            <TextBlock Text="{Binding NombreUsuario}" HorizontalAlignment="Right"
+                       Foreground="White" Margin="0,0,20,0" VerticalAlignment="Center"/>
+        </DockPanel>
+
+        <!-- Left side menu -->
+        <StackPanel Grid.Row="1" Grid.Column="0" Background="#2C3E50"
+                    VerticalAlignment="Stretch" HorizontalAlignment="Left">
+
+            <!-- Navigation buttons -->
+            <Button x:Name="BtnDashboard" Content="Dashboard" Click="Dashboard_Click" Style="{StaticResource NavButtonStyle}"/>
+            <Button x:Name="BtnBooks" Content="Books" Click="Books_Click" Style="{StaticResource NavButtonStyle}"/>
+            <Button x:Name="BtnUsers" Content="Users" Click="Users_Click" Style="{StaticResource NavButtonStyle}"/>
+            <Button x:Name="BtnProfile" Content="My Profile" Click="Profile_Click" Style="{StaticResource NavButtonStyle}"/>
+            <Button x:Name="BtnLogout" Content="Log Out" Click="Logout_Click" Style="{StaticResource NavButtonStyle}"/>
+        </StackPanel>
+
+        <!-- Main frame to load pages -->
+        <Frame x:Name="MainFrame" Grid.Row="1" Grid.Column="1" NavigationUIVisibility="Hidden"/>
     </Grid>
 </Window>
