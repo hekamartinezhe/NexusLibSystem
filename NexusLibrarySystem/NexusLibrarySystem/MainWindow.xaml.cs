@@ -9,7 +9,6 @@ namespace NexusLibrarySystem
         {
             InitializeComponent();
 
-            // Opcional: carga inicial de la página Dashboard
             MainFrame.Navigate(new Views.DashboardPage());
         }
 
@@ -35,7 +34,7 @@ namespace NexusLibrarySystem
 
         private void Logout_Click(object sender, RoutedEventArgs e)
         {
-            // Cierra la aplicación o vuelve a la ventana login
+            
             Application.Current.Shutdown();
         }
     }
