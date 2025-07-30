@@ -7,6 +7,6 @@ using System.Threading.Tasks;
 namespace NexusLibrarySystem.Models
 {
     internal class User
-    {
+    { 
     }
 }
