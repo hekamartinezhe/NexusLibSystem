@@ -1,15 +1,40 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
 
 namespace NexusLibrarySystem
 {
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        private readonly string _userRole;
+        private readonly string _userName;
+
+        public MainWindow(string userRole, string userName = "User")
         {
             InitializeComponent();
 
+            _userRole = userRole;
+            _userName = userName;
+
+            DataContext = this;  // Para el binding del nombre de usuario en la UI
+
+            AdjustMenuByRole();
+
             MainFrame.Navigate(new Views.DashboardPage());
+        }
+
+        public string NombreUsuario => _userName;
+
+        private void AdjustMenuByRole()
+        {
+            if (_userRole.ToLower() != "admin")
+            {
+                BtnUsers.Visibility = Visibility.Collapsed;
+                BtnBooks.Content = "Browse Books";
+            }
+            else
+            {
+                BtnUsers.Visibility = Visibility.Visible;
+                BtnBooks.Content = "Books";
+            }
         }
 
         private void Dashboard_Click(object sender, RoutedEventArgs e)
@@ -34,9 +59,7 @@ namespace NexusLibrarySystem
 
         private void Logout_Click(object sender, RoutedEventArgs e)
         {
-            
             Application.Current.Shutdown();
         }
     }
 }
-

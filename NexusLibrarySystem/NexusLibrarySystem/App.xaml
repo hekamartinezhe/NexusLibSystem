@@ -1,12 +1,11 @@
 ﻿<Application x:Class="NexusLibrarySystem.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:NexusLibrarySystem"
-             StartupUri="MainWindow.xaml">
+             StartupUri="Views/LoginView.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Styles/Theme.xaml"/>
+                <ResourceDictionary Source="/Styles/Theme.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

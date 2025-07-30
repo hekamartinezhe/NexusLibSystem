@@ -1,27 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+﻿using System.Windows;
+using NexusLibrarySystem;
 
 namespace NexusLibrarySystem.Views
 {
-    /// <summary>
-    /// Lógica de interacción para LoginView.xaml
-    /// </summary>
     public partial class LoginView : Window
     {
         public LoginView()
         {
             InitializeComponent();
+        }
+
+        private void Login_Click(object sender, RoutedEventArgs e)
+        {
+            string enrollment = TxtEnrollment.Text.Trim();
+            string password = TxtPassword.Password.Trim();
+
+            // TODO: Use real authentication logic here
+            if ((enrollment.Equals("admin", System.StringComparison.OrdinalIgnoreCase) && password == "admin") ||
+                (enrollment.StartsWith("S") && password == "student"))
+            {
+                string role = enrollment.Equals("admin", System.StringComparison.OrdinalIgnoreCase) ? "Admin" : "Student";
+
+                // Ashow main window with the user's role
+                MainWindow mainWindow = new MainWindow(role);
+                mainWindow.Show();
+
+                // Close the login window
+                this.Close();
+            }
+            else
+            {
+                LblError.Text = "Invalid enrollment number or password.";
+            }
         }
     }
 }

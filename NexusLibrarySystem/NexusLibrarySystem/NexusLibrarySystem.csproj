@@ -56,6 +56,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Models\Book.cs" />
+    <Compile Include="Models\MockDb.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Views\BooksPage.xaml.cs">
       <DependentUpon>BooksPage.xaml</DependentUpon>

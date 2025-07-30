@@ -35,11 +35,11 @@
                     VerticalAlignment="Stretch" HorizontalAlignment="Left">
 
             <!-- Navigation buttons -->
-            <Button x:Name="BtnDashboard" Content="Dashboard" Click="Dashboard_Click" Style="{StaticResource NavButtonStyle}"/>
-            <Button x:Name="BtnBooks" Content="Books" Click="Books_Click" Style="{StaticResource NavButtonStyle}"/>
-            <Button x:Name="BtnUsers" Content="Users" Click="Users_Click" Style="{StaticResource NavButtonStyle}"/>
-            <Button x:Name="BtnProfile" Content="My Profile" Click="Profile_Click" Style="{StaticResource NavButtonStyle}"/>
-            <Button x:Name="BtnLogout" Content="Log Out" Click="Logout_Click" Style="{StaticResource NavButtonStyle}"/>
+            <Button x:Name="BtnDashboard" Content=" Dashboard" Click="Dashboard_Click" Style="{StaticResource NavButtonStyle}"/>
+            <Button x:Name="BtnBooks" Content=" Books" Click="Books_Click" Style="{StaticResource NavButtonStyle}"/>
+            <Button x:Name="BtnUsers" Content=" Users" Click="Users_Click" Style="{StaticResource NavButtonStyle}"/>
+            <Button x:Name="BtnProfile" Content=" My Profile" Click="Profile_Click" Style="{StaticResource NavButtonStyle}"/>
+            <Button x:Name="BtnLogout" Content=" Log Out" Click="Logout_Click" Style="{StaticResource NavButtonStyle}"/>
         </StackPanel>
 
         <!-- Main frame to load pages -->
