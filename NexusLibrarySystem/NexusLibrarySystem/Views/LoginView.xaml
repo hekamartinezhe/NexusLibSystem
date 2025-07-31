@@ -17,10 +17,10 @@
                 <TextBlock Text="Please log in to your account" FontSize="14" Margin="0,0,0,20"/>
 
                 <Label Content="Enrollment Number"/>
-                <TextBox x:Name="TxtEnrollment" Margin="0,0,0,10"/>
+                <TextBox x:Name="TxtEnrollment" Style="{StaticResource RoundedTextBox}"/>
 
                 <Label Content="Password"/>
-                <PasswordBox x:Name="TxtPassword" Margin="0,0,0,20"/>
+                <PasswordBox x:Name="TxtPassword" Style="{StaticResource RoundedPasswordBox}"/>
 
                 <Button Content="Login"
                         Click="Login_Click"

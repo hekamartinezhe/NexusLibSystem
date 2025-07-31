@@ -123,6 +123,43 @@
         <Setter Property="Foreground" Value="{StaticResource OnBackgroundBrush}"/>
         <Setter Property="Margin" Value="0,10,0,2"/>
     </Style>
+    <!-- Rounded TextBox Style -->
+    <Style x:Key="RoundedTextBox" TargetType="TextBox" BasedOn="{StaticResource StyledTextBox}">
+        <Setter Property="Height" Value="35"/>
+        <Setter Property="Margin" Value="0,0,0,10"/>
+        <Setter Property="Padding" Value="10,5"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Border CornerRadius="8"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                        <ScrollViewer x:Name="PART_ContentHost"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Rounded PasswordBox Style -->
+    <Style x:Key="RoundedPasswordBox" TargetType="PasswordBox" BasedOn="{StaticResource StyledPasswordBox}">
+        <Setter Property="Height" Value="35"/>
+        <Setter Property="Margin" Value="0,0,0,20"/>
+        <Setter Property="Padding" Value="10,5"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="PasswordBox">
+                    <Border CornerRadius="8"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                        <ScrollViewer x:Name="PART_ContentHost"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
 
 </ResourceDictionary>
