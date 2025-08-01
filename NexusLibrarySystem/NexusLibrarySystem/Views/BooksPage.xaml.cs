@@ -23,7 +23,7 @@ namespace NexusLibrarySystem.Views
         {
             try
             {
-                List<Book> books = Database.GetBooks(filter);
+                List<Book> books = BookData.GetBooks(filter);
                 BooksGrid.ItemsSource = books;
             }
             catch (Exception ex)

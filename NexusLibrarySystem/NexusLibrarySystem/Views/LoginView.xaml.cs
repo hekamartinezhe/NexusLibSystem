@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using NexusLibrarySystem.Data;
 using NexusLibrarySystem.Models;
 
 namespace NexusLibrarySystem.Views
@@ -21,7 +22,7 @@ namespace NexusLibrarySystem.Views
                 return;
             }
 
-            User user = Database.ValidateLogin(enrollment, password);
+            User user = UserData.ValidateLogin(enrollment, password);
 
             if (user != null)
             {
