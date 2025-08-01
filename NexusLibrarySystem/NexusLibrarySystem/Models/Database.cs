@@ -1,9 +1,10 @@
-﻿using System;
+﻿using NexusLibrarySystem.Models;
+using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Security.Cryptography;
 using System.Text;
-using NexusLibrarySystem.Models;
 
 namespace NexusLibrarySystem
 {
@@ -46,6 +47,46 @@ namespace NexusLibrarySystem
             }
 
             return null; // Usuario no encontrado o contraseña incorrecta
+        }
+
+
+        public static List<Book> GetBooks(string titleFilter = "")
+        {
+            var books = new List<Book>();
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                string query = "SELECT bookId, title, author FROM Books";
+
+                if (!string.IsNullOrWhiteSpace(titleFilter))
+                {
+                    query += " WHERE title LIKE @title";
+                }
+
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    if (!string.IsNullOrWhiteSpace(titleFilter))
+                    {
+                        cmd.Parameters.AddWithValue("@title", "%" + titleFilter + "%");
+                    }
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            books.Add(new Book
+                            {
+                                Id = reader.GetInt32(0),
+                                Title = reader.GetString(1),
+                                Author = reader.GetString(2)
+                            });
+                        }
+                    }
+                }
+            }
+
+            return books;
         }
 
         /// <summary>

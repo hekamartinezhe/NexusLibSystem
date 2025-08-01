@@ -1,31 +1,30 @@
-﻿using System.Windows;
+﻿using NexusLibrarySystem.Models;
+using NexusLibrarySystem.Views;
+using System.Windows;
 
 namespace NexusLibrarySystem
 {
     public partial class MainWindow : Window
     {
-        private readonly string _userRole;
-        private readonly string _userName;
+        private readonly User _currentUser;
 
-        public MainWindow(string userRole, string userName = "User")
+        public MainWindow(User user)
         {
             InitializeComponent();
 
-            _userRole = userRole;
-            _userName = userName;
-
-            DataContext = this;  // Para el binding del nombre de usuario en la UI
+            _currentUser = user;
+            DataContext = this;
 
             AdjustMenuByRole();
 
-            MainFrame.Navigate(new Views.DashboardPage());
+            MainFrame.Navigate(new DashboardPage());
         }
 
-        public string NombreUsuario => _userName;
+        public string NombreUsuario => _currentUser.FullName;
 
         private void AdjustMenuByRole()
         {
-            if (_userRole.ToLower() != "admin")
+            if (_currentUser.Role.ToLower() != "admin")
             {
                 BtnUsers.Visibility = Visibility.Collapsed;
                 BtnBooks.Content = "Browse Books";
@@ -40,22 +39,22 @@ namespace NexusLibrarySystem
 
         private void Dashboard_Click(object sender, RoutedEventArgs e)
         {
-            MainFrame.Navigate(new Views.DashboardPage());
+            MainFrame.Navigate(new DashboardPage());
         }
 
         private void Books_Click(object sender, RoutedEventArgs e)
         {
-            MainFrame.Navigate(new Views.BooksPage());
+            MainFrame.Navigate(new BooksPage(_currentUser)); // ✅ Ahora sí tienes acceso al usuario
         }
 
         private void Users_Click(object sender, RoutedEventArgs e)
         {
-            MainFrame.Navigate(new Views.UsersPage());
+            MainFrame.Navigate(new UsersPage());
         }
 
         private void Profile_Click(object sender, RoutedEventArgs e)
         {
-            MainFrame.Navigate(new Views.ProfilePage());
+            MainFrame.Navigate(new ProfilePage());
         }
 
         private void Logout_Click(object sender, RoutedEventArgs e)

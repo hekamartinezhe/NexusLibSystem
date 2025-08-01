@@ -25,7 +25,7 @@ namespace NexusLibrarySystem.Views
 
             if (user != null)
             {
-                MainWindow mainWindow = new MainWindow(user.Role);
+                MainWindow mainWindow = new MainWindow(user); // Pasa el objeto completo
                 mainWindow.Show();
                 this.Close();
             }
