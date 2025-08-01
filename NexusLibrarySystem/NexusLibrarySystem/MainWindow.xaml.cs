@@ -34,6 +34,7 @@ namespace NexusLibrarySystem
             {
                 BtnUsers.Visibility = Visibility.Visible;
                 BtnBooks.Content = "Books";
+                BtnProfile.Visibility = Visibility.Collapsed;
             }
         }
 

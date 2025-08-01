@@ -1,5 +1,5 @@
 ﻿using System.Windows;
-using NexusLibrarySystem;
+using NexusLibrarySystem.Models;
 
 namespace NexusLibrarySystem.Views
 {
@@ -15,17 +15,18 @@ namespace NexusLibrarySystem.Views
             string enrollment = TxtEnrollment.Text.Trim();
             string password = TxtPassword.Password.Trim();
 
-            // TODO: Use real authentication logic here
-            if ((enrollment.Equals("admin", System.StringComparison.OrdinalIgnoreCase) && password == "admin") ||
-                (enrollment.StartsWith("S") && password == "student"))
+            if (string.IsNullOrWhiteSpace(enrollment) || string.IsNullOrWhiteSpace(password))
             {
-                string role = enrollment.Equals("admin", System.StringComparison.OrdinalIgnoreCase) ? "Admin" : "Student";
+                LblError.Text = "Please enter both enrollment number and password.";
+                return;
+            }
 
-                // Ashow main window with the user's role
-                MainWindow mainWindow = new MainWindow(role);
+            User user = Database.ValidateLogin(enrollment, password);
+
+            if (user != null)
+            {
+                MainWindow mainWindow = new MainWindow(user.Role);
                 mainWindow.Show();
-
-                // Close the login window
                 this.Close();
             }
             else
