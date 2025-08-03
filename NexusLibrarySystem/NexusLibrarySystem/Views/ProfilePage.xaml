@@ -16,12 +16,47 @@
                    Foreground="#2C3E50"
                    Margin="0,0,0,20"/>
 
-        <!-- User profile information -->
-        <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top">
-            <TextBlock Text="Lorem ipsum dolor sit amet."
-                       FontSize="16"
-                       Foreground="#7F8C8D"
-                       TextAlignment="Center"/>
-        </StackPanel>
+        <!-- Content -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Width="600" Margin="0 0 0 40">
+
+                <!-- Perfil del estudiante -->
+                <Border CornerRadius="15" Background="#F4F4F4" Padding="20" Margin="0 0 0 20">
+                    <StackPanel Orientation="Horizontal">
+                        <!-- Avatar -->
+                        <Ellipse Width="80" Height="80" Margin="0 0 20 0">
+                            <Ellipse.Fill>
+                                <ImageBrush ImageSource="/Assets/Assets.png" />
+                            </Ellipse.Fill>
+                        </Ellipse>
+
+                        <!-- Datos -->
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="{Binding FullName}" FontSize="20" FontWeight="Bold"/>
+                            <TextBlock Text="{Binding EnrollmentNum}" Foreground="#555"/>
+                            <TextBlock Text="{Binding Email}" Foreground="#555"/>
+                            <TextBlock Text="Role: Student" Foreground="#3498DB"/>
+                            <TextBlock Text="Account Status: Active" Foreground="Green"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- Tabla de préstamos activos -->
+                <TextBlock Text="Active Loans" FontSize="18" FontWeight="SemiBold" Margin="0 0 0 10"/>
+                <DataGrid x:Name="LoansDataGrid" AutoGenerateColumns="False" Height="250"
+                          CanUserAddRows="False" IsReadOnly="True"
+                          Background="White" RowBackground="WhiteSmoke" 
+                          AlternatingRowBackground="#EFEFEF" GridLinesVisibility="None"
+                          ColumnHeaderHeight="30">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Book Title" Binding="{Binding BookTitle}" Width="*" />
+                        <DataGridTextColumn Header="Loan Date" Binding="{Binding LoanDate}" Width="Auto"/>
+                        <DataGridTextColumn Header="Due Date" Binding="{Binding DueDate}" Width="Auto"/>
+                        <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="Auto"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Page>
