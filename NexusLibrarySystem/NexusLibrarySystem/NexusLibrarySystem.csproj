@@ -64,6 +64,9 @@
     <Compile Include="Models\Database.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserData.cs" />
+    <Compile Include="Views\AddEditBookWindow.xaml.cs">
+      <DependentUpon>AddEditBookWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\BooksPage.xaml.cs">
       <DependentUpon>BooksPage.xaml</DependentUpon>
     </Compile>
@@ -79,6 +82,10 @@
     <Compile Include="Views\UsersPage.xaml.cs">
       <DependentUpon>UsersPage.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\AddEditBookWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\BooksPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
