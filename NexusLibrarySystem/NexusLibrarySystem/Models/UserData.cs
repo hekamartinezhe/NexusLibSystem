@@ -13,7 +13,7 @@ namespace NexusLibrarySystem.Data
             using (SqlConnection conn = Database.GetConnection())
             {
                 conn.Open();
-                string query = @"SELECT userId, fullName, userRole 
+                string query = @"SELECT userId, fullName, userRole, enrollmentNum, isActive
                                  FROM Users 
                                  WHERE enrollmentNum = @enrollment AND pswdHash = @password";
 
@@ -26,12 +26,30 @@ namespace NexusLibrarySystem.Data
                     {
                         if (reader.Read())
                         {
-                            return new User
+                            string role = reader.GetString(2).ToLower();
+
+                            if (role == "admin")
                             {
-                                UserId = reader.GetInt32(0),
-                                FullName = reader.GetString(1),
-                                Role = reader.GetString(2)
-                            };
+                                return new Admin
+                                {
+                                    UserId = reader.GetInt32(0),
+                                    FullName = reader.GetString(1),
+                                    Role = "Admin",
+                                    EnrollmentNum = reader.GetString(3),
+                                    IsActive = reader.GetBoolean(4)
+                                };
+                            }
+                            else
+                            {
+                                return new Student
+                                {
+                                    UserId = reader.GetInt32(0),
+                                    FullName = reader.GetString(1),
+                                    Role = "Student",
+                                    EnrollmentNum = reader.GetString(3),
+                                    IsActive = reader.GetBoolean(4)
+                                };
+                            }
                         }
                     }
                 }
@@ -47,20 +65,37 @@ namespace NexusLibrarySystem.Data
             using (SqlConnection conn = Database.GetConnection())
             {
                 conn.Open();
-                string query = "SELECT userId, fullName, userRole, enrollmentNum FROM Users";
+                string query = "SELECT userId, fullName, userRole, enrollmentNum, isActive FROM Users";
 
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        users.Add(new User
+                        string role = reader.GetString(2).ToLower();
+
+                        if (role == "admin")
                         {
-                            UserId = reader.GetInt32(0),
-                            FullName = reader.GetString(1),
-                            Role = reader.GetString(2),
-                            EnrollmentNum = reader.GetString(3)
-                        });
+                            users.Add(new Admin
+                            {
+                                UserId = reader.GetInt32(0),
+                                FullName = reader.GetString(1),
+                                Role = "Admin",
+                                EnrollmentNum = reader.GetString(3),
+                                IsActive = reader.GetBoolean(4)
+                            });
+                        }
+                        else
+                        {
+                            users.Add(new Student
+                            {
+                                UserId = reader.GetInt32(0),
+                                FullName = reader.GetString(1),
+                                Role = "Student",
+                                EnrollmentNum = reader.GetString(3),
+                                IsActive = reader.GetBoolean(4)
+                            });
+                        }
                     }
                 }
             }
@@ -69,8 +104,3 @@ namespace NexusLibrarySystem.Data
         }
     }
 }
-
-
-
-
-
