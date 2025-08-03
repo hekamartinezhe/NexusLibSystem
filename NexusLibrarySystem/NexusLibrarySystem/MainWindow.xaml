@@ -27,6 +27,7 @@
                        VerticalAlignment="Center" Margin="20,0" FontSize="20"/>
             <!-- Display current user name -->
             <TextBlock Text="{Binding NombreUsuario}" HorizontalAlignment="Right"
+                       Style="{StaticResource UserNameTextBlockStyle}"
                        Foreground="White" Margin="0,0,20,0" VerticalAlignment="Center"/>
         </DockPanel>
 
