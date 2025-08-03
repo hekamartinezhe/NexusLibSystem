@@ -85,8 +85,9 @@
                 </DataGrid.Resources>
 
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="Auto"/>
+                    <DataGridTextColumn Header="ISBN" Binding="{Binding ISBN}" Width="*"/>
                     <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="*"/>
+                    <DataGridTextColumn Header="Inventory" Binding="{Binding Inventory}" Width="Auto"/>
                     <DataGridTextColumn Header="Author" Binding="{Binding Author}" Width="*"/>
                 </DataGrid.Columns>
             </DataGrid>

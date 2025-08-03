@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using NexusLibrarySystem.Models;
@@ -67,16 +66,28 @@ namespace NexusLibrarySystem.Views
 
         private void AddBookButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Open form to add new book.");
-            // Lógica real de agregar libro aquí
+            var addWindow = new AddEditBookWindow(null); // modo agregar
+            bool? result = addWindow.ShowDialog();
+
+            if (result == true)
+            {
+                LoadBooks();
+                MessageBox.Show("Book added successfully.", "Success");
+            }
         }
 
         private void EditBookButton_Click(object sender, RoutedEventArgs e)
         {
             if (BooksGrid.SelectedItem is Book selectedBook)
             {
-                MessageBox.Show($"Editing book: {selectedBook.Title}");
-                // Lógica real de edición aquí
+                var editWindow = new AddEditBookWindow(selectedBook); // modo editar
+                bool? result = editWindow.ShowDialog();
+
+                if (result == true)
+                {
+                    LoadBooks();
+                    MessageBox.Show("Book updated successfully.", "Success");
+                }
             }
             else
             {
@@ -88,14 +99,25 @@ namespace NexusLibrarySystem.Views
         {
             if (BooksGrid.SelectedItem is Book selectedBook)
             {
-                var confirm = MessageBox.Show($"Are you sure you want to delete '{selectedBook.Title}'?",
-                                              "Confirm Deletion", MessageBoxButton.YesNo);
+                var confirm = MessageBox.Show(
+                    $"Are you sure you want to delete '{selectedBook.Title}'?",
+                    "Confirm Deletion",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Warning
+                );
 
                 if (confirm == MessageBoxResult.Yes)
                 {
-                    // Aquí deberías eliminarlo de la base de datos
-                    MessageBox.Show("Book deleted (mock).");
-                    LoadBooks();
+                    bool success = BookData.DeleteBook(selectedBook.Id);
+                    if (success)
+                    {
+                        LoadBooks();
+                        MessageBox.Show("Book deleted successfully.", "Deleted");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to delete the book.", "Error");
+                    }
                 }
             }
             else
