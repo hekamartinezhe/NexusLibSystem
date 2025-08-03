@@ -1,10 +1,16 @@
-﻿
-public class User
+﻿namespace NexusLibrarySystem.Models
 {
-    public int UserId { get; set; }                // userId
-    public string FullName { get; set; }       // fullName
-    public string EnrollmentNum { get; set; }  // enrollmentNum (no se usa aquí, pero podrías agregarlo)
-    public string Role { get; set; }           // userRole
-    public bool IsActive { get; set; } = true;
+    public class User
+    {
+        public int UserId { get; set; }
+        public string FullName { get; set; }
+        public string EnrollmentNum { get; set; }
+        public string Role { get; set; }
+        public bool IsActive { get; set; } = true;
 
+        public virtual string GetDisplayInfo()
+        {
+            return $"{FullName} ({Role})";
+        }
+    }
 }
