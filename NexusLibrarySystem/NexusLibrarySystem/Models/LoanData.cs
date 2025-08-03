@@ -55,26 +55,30 @@ namespace NexusLibrarySystem.Data
             {
                 conn.Open();
 
-                // Actualizar préstamos atrasados
-                string updateLoans = @"
-                    UPDATE Loans
-                    SET Status = 'Overdue',
-                        FineAmount = DATEDIFF(DAY, DueDate, GETDATE()) * 10
-                    WHERE Status = 'OnLoan' AND GETDATE() > DueDate AND ReturnDate IS NULL";
+                // 1. Actualiza solo préstamos aún activos que ya están vencidos y sin devolución
+                string updateOverdue = @"
+            UPDATE Loans
+            SET Status = 'Overdue',
+                FineAmount = DATEDIFF(DAY, DueDate, GETDATE()) * 10
+            WHERE Status = 'OnLoan' 
+              AND DueDate < GETDATE() 
+              AND ReturnDate IS NULL";
 
-                using (var cmd = new SqlCommand(updateLoans, conn))
+                using (var cmd = new SqlCommand(updateOverdue, conn))
                 {
                     cmd.ExecuteNonQuery();
                 }
 
-                // Inactivar usuarios con multas activas
+                // 2. Solo bloquea usuarios que estén activos y tengan multas activas
                 string blockUsers = @"
-                    UPDATE Users
-                    SET IsActive = 0
-                    WHERE EXISTS (
-                        SELECT 1 FROM Loans
-                        WHERE Loans.UserId = Users.userId AND FineAmount > 0 AND ReturnDate IS NULL
-                    )";
+            UPDATE Users
+            SET IsActive = 0
+            WHERE IsActive = 1 AND EXISTS (
+                SELECT 1 FROM Loans
+                WHERE Loans.userId = Users.userId
+                  AND Loans.FineAmount > 0
+                  AND Loans.ReturnDate IS NULL
+            )";
 
                 using (var cmd = new SqlCommand(blockUsers, conn))
                 {
