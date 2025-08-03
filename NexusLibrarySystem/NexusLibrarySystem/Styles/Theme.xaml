@@ -16,9 +16,20 @@
     <SolidColorBrush x:Key="SecondaryBrush" Color="{StaticResource SecondaryColor}"/>
     <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource BackgroundColor}"/>
     <SolidColorBrush x:Key="SurfaceBrush" Color="{StaticResource SurfaceColor}"/>
+    <SolidColorBrush x:Key="OnSurfaceBrush" Color="#222222" />
     <SolidColorBrush x:Key="OnPrimaryBrush" Color="{StaticResource OnPrimaryColor}"/>
     <SolidColorBrush x:Key="OnBackgroundBrush" Color="{StaticResource OnBackgroundColor}"/>
     <SolidColorBrush x:Key="CardBackgroundBrush" Color="#F7F9F9"/>
+    <SolidColorBrush x:Key="AlternateRowBrush" Color="#FFF6F6F6" />
+
+    <!-- Card shadow effect for borders and containers -->
+    <DropShadowEffect x:Key="CardShadow"
+                  BlurRadius="8"
+                  ShadowDepth="2"
+                  Direction="270"
+                  Opacity="0.2"
+                  Color="Black"/>
+
 
     <!-- MaterialButton simulation-->
     <Style x:Key="MaterialButton" TargetType="Button">
@@ -101,6 +112,31 @@
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Margin" Value="0,5,0,15"/>
         <Setter Property="Height" Value="32"/>
+    </Style>
+    <!-- Estilo de cabecera de DataGrid -->
+    <Style x:Key="StandardDataGridHeaderStyle" TargetType="DataGridColumnHeader">
+        <Setter Property="Background" Value="{StaticResource PrimaryBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource OnPrimaryBrush}"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Padding" Value="10,5"/>
+    </Style>
+
+    <!-- Estilo general de DataGrid -->
+    <Style x:Key="DataGridStandardStyle" TargetType="DataGrid">
+        <Setter Property="AutoGenerateColumns" Value="False"/>
+        <Setter Property="CanUserAddRows" Value="False"/>
+        <Setter Property="IsReadOnly" Value="True"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="RowBackground" Value="White"/>
+        <Setter Property="AlternatingRowBackground" Value="#F5F5F5"/>
+        <Setter Property="GridLinesVisibility" Value="Horizontal"/>
+        <Setter Property="HeadersVisibility" Value="Column"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="RowHeight" Value="35"/>
+        <Setter Property="ColumnHeaderHeight" Value="40"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="SelectionMode" Value="Single"/>
+        <Setter Property="SelectionUnit" Value="FullRow"/>
     </Style>
 
     <!-- ComboBox Style -->

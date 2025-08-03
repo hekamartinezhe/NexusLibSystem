@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using NexusLibrarySystem.Models;
+using NexusLibrarySystem.Data;
 
 namespace NexusLibrarySystem.Views
 {
@@ -36,12 +37,16 @@ namespace NexusLibrarySystem.Views
             if (_currentUser.Role.ToLower() == "student")
             {
                 LoanButton.Visibility = Visibility.Visible;
+                AddBookButton.Visibility = Visibility.Collapsed;
+                EditBookButton.Visibility = Visibility.Collapsed;
+                DeleteBookButton.Visibility = Visibility.Collapsed;
             }
             else if (_currentUser.Role.ToLower() == "admin")
             {
                 AddBookButton.Visibility = Visibility.Visible;
                 EditBookButton.Visibility = Visibility.Visible;
                 DeleteBookButton.Visibility = Visibility.Visible;
+                LoanButton.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -53,10 +58,23 @@ namespace NexusLibrarySystem.Views
 
         private void LoanButton_Click(object sender, RoutedEventArgs e)
         {
+            if (!_currentUser.IsActive)
+            {
+                MessageBox.Show("You cannot loan books until all your fines are paid.", "User Blocked");
+                return;
+            }
+
             if (BooksGrid.SelectedItem is Book selectedBook)
             {
-                MessageBox.Show($"Book '{selectedBook.Title}' requested successfully.", "Loan Book");
-                // Aquí puedes registrar en la base de datos un préstamo si deseas
+                bool success = LoanData.RegisterLoan(_currentUser.UserId, selectedBook.Id);
+                if (success)
+                {
+                    MessageBox.Show($"Book '{selectedBook.Title}' loaned successfully.", "Loan Book");
+                }
+                else
+                {
+                    MessageBox.Show("Error registering the loan.", "Error");
+                }
             }
             else
             {
@@ -66,7 +84,7 @@ namespace NexusLibrarySystem.Views
 
         private void AddBookButton_Click(object sender, RoutedEventArgs e)
         {
-            var addWindow = new AddEditBookWindow(null); // modo agregar
+            var addWindow = new AddEditBookWindow(null); // Add mode
             bool? result = addWindow.ShowDialog();
 
             if (result == true)
@@ -80,7 +98,7 @@ namespace NexusLibrarySystem.Views
         {
             if (BooksGrid.SelectedItem is Book selectedBook)
             {
-                var editWindow = new AddEditBookWindow(selectedBook); // modo editar
+                var editWindow = new AddEditBookWindow(selectedBook); // Edit mode
                 bool? result = editWindow.ShowDialog();
 
                 if (result == true)

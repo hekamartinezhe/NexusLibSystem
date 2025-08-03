@@ -29,7 +29,13 @@ namespace NexusLibrarySystem.Views
 
             if (user != null)
             {
-                MainWindow mainWindow = new MainWindow(user); // Pasa el objeto completo
+                if (!user.IsActive)
+                {
+                    LblError.Text = "Your account has been suspended due to late fees, contact library administration.";
+                    return;
+                }
+
+                MainWindow mainWindow = new MainWindow(user);
                 mainWindow.Show();
                 this.Close();
             }
