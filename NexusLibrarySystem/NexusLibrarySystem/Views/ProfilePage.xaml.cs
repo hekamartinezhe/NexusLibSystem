@@ -22,7 +22,7 @@ namespace NexusLibrarySystem.Views
             LoanData.UpdateLoanStatusesAndBlockUsers();
 
             // Cargar préstamos del usuario
-            List<Loan> loans = LoanData.GetLoansByUserId(_currentUser.userId);
+            List<Loan> loans = LoanData.GetLoansByUserId(_currentUser.UserId);
             LoansDataGrid.ItemsSource = loans;
 
             // Bindear otros datos

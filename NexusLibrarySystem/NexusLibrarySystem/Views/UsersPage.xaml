@@ -10,39 +10,34 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Button Content="Refresh Users"
+        <Button Content="Refresh Users" Style="{StaticResource MaterialButton}"
                 Width="120"
                 Height="30"
                 Margin="0,0,0,10"
                 HorizontalAlignment="Left"
                 Click="RefreshUsers_Click"/>
 
-        <DataGrid x:Name="UsersDataGrid"
-                  Grid.Row="1"
-                  AutoGenerateColumns="False"
-                  IsReadOnly="True"
-                  CanUserAddRows="False"
-                  Margin="0,10,0,0">
+        <Border Grid.Row="1"
+                Background="{StaticResource SurfaceBrush}"
+                CornerRadius="8"
+                Padding="5"
+                BorderBrush="{StaticResource PrimaryBrush}"
+                BorderThickness="1">
 
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="ID"
-                                    Binding="{Binding Id}"
-                                    Width="50" />
-                <DataGridTextColumn Header="Full Name"
-                                    Binding="{Binding FullName}"
-                                    Width="*" />
-                <DataGridTextColumn Header="Role"
-                                    Binding="{Binding Role}"
-                                    Width="150" />
-                <DataGridTextColumn Header="Enrollment Number"
-                                    Binding="{Binding EnrollmentNumber}"
-                                    Width="150" />
-            </DataGrid.Columns>
-        </DataGrid>
+            <DataGrid x:Name="UsersDataGrid"
+                      Style="{StaticResource DataGridStandardStyle}">
+                <DataGrid.Resources>
+                    <Style TargetType="DataGridColumnHeader"
+                           BasedOn="{StaticResource StandardDataGridHeaderStyle}" />
+                </DataGrid.Resources>
+
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="ID" Binding="{Binding UserId}" Width="50"/>
+                    <DataGridTextColumn Header="Full Name" Binding="{Binding FullName}" Width="*"/>
+                    <DataGridTextColumn Header="Role" Binding="{Binding Role}" Width="150"/>
+                    <DataGridTextColumn Header="Enrollment Number" Binding="{Binding EnrollmentNum}" Width="150"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
     </Grid>
 </Page>
-
-
-
-
-  

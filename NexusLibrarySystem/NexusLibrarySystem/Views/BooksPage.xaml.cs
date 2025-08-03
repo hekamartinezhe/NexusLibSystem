@@ -66,7 +66,7 @@ namespace NexusLibrarySystem.Views
 
             if (BooksGrid.SelectedItem is Book selectedBook)
             {
-                bool success = LoanData.RegisterLoan(_currentUser.userId, selectedBook.Id);
+                bool success = LoanData.RegisterLoan(_currentUser.UserId, selectedBook.Id);
                 if (success)
                 {
                     MessageBox.Show($"Book '{selectedBook.Title}' loaned successfully.", "Loan Book");

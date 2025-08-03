@@ -59,7 +59,9 @@ namespace NexusLibrarySystem
 
         private void Logout_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.Shutdown();
+            LoginView loginView = new LoginView();
+            loginView.Show();
+            this.Close();
         }
     }
 }

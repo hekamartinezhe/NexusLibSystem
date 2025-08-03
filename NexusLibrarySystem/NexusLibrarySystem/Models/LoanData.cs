@@ -55,7 +55,7 @@ namespace NexusLibrarySystem.Data
             {
                 conn.Open();
 
-                // 1. Actualiza solo préstamos aún activos que ya están vencidos y sin devolución
+                //Actualiza solo préstamos aún activos que ya están vencidos y sin devolución
                 string updateOverdue = @"
             UPDATE Loans
             SET Status = 'Overdue',
@@ -69,7 +69,7 @@ namespace NexusLibrarySystem.Data
                     cmd.ExecuteNonQuery();
                 }
 
-                // 2. Solo bloquea usuarios que estén activos y tengan multas activas
+                //Solo bloquea usuarios que estén activos y tengan multas activas
                 string blockUsers = @"
             UPDATE Users
             SET IsActive = 0
