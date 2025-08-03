@@ -28,7 +28,7 @@ namespace NexusLibrarySystem.Data
                         {
                             return new User
                             {
-                                Id = reader.GetInt32(0),
+                                userId = reader.GetInt32(0),
                                 FullName = reader.GetString(1),
                                 Role = reader.GetString(2)
                             };
@@ -56,7 +56,7 @@ namespace NexusLibrarySystem.Data
                     {
                         users.Add(new User
                         {
-                            Id = reader.GetInt32(0),
+                            userId = reader.GetInt32(0),
                             FullName = reader.GetString(1),
                             Role = reader.GetString(2),
                             EnrollmentNumber = reader.GetString(3)

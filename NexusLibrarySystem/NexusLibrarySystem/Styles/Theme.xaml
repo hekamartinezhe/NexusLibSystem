@@ -16,9 +16,20 @@
     <SolidColorBrush x:Key="SecondaryBrush" Color="{StaticResource SecondaryColor}"/>
     <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource BackgroundColor}"/>
     <SolidColorBrush x:Key="SurfaceBrush" Color="{StaticResource SurfaceColor}"/>
+    <SolidColorBrush x:Key="OnSurfaceBrush" Color="#222222" />
     <SolidColorBrush x:Key="OnPrimaryBrush" Color="{StaticResource OnPrimaryColor}"/>
     <SolidColorBrush x:Key="OnBackgroundBrush" Color="{StaticResource OnBackgroundColor}"/>
     <SolidColorBrush x:Key="CardBackgroundBrush" Color="#F7F9F9"/>
+    <SolidColorBrush x:Key="AlternateRowBrush" Color="#FFF6F6F6" />
+
+    <!-- Card shadow effect for borders and containers -->
+    <DropShadowEffect x:Key="CardShadow"
+                  BlurRadius="8"
+                  ShadowDepth="2"
+                  Direction="270"
+                  Opacity="0.2"
+                  Color="Black"/>
+
 
     <!-- MaterialButton simulation-->
     <Style x:Key="MaterialButton" TargetType="Button">

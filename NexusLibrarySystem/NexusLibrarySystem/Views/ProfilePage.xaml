@@ -3,56 +3,73 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       Title="Profile">
 
-    <Grid Background="White" Margin="20">
+    <Grid Background="{StaticResource BackgroundBrush}" Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- Header -->
-        <TextBlock Text="Profile"
+        <!-- Encabezado -->
+        <TextBlock Text="Perfil del Usuario"
                    FontSize="28"
                    FontWeight="Bold"
-                   Foreground="#2C3E50"
+                   Foreground="{StaticResource PrimaryBrush}"
                    Margin="0,0,0,20"/>
 
-        <!-- Content -->
+        <!-- Contenido -->
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Width="600" Margin="0 0 0 40">
 
-                <!-- Perfil del estudiante -->
-                <Border CornerRadius="15" Background="#F4F4F4" Padding="20" Margin="0 0 0 20">
+                <!-- Panel de información del perfil -->
+                <Border CornerRadius="15"
+                        Background="{StaticResource SurfaceBrush}"
+                        Padding="20" Margin="0 0 0 20"
+                        Effect="{StaticResource CardShadow}">
                     <StackPanel Orientation="Horizontal">
                         <!-- Avatar -->
-                        <Ellipse Width="80" Height="80" Margin="0 0 20 0">
+                        <Ellipse Width="80" Height="80" Margin="0 0 20 0" StrokeThickness="2" Stroke="{StaticResource PrimaryBrush}">
                             <Ellipse.Fill>
                                 <ImageBrush ImageSource="/Assets/Assets.png" />
                             </Ellipse.Fill>
                         </Ellipse>
 
-                        <!-- Datos -->
-                        <StackPanel VerticalAlignment="Center">
-                            <TextBlock Text="{Binding FullName}" FontSize="20" FontWeight="Bold"/>
-                            <TextBlock Text="{Binding EnrollmentNum}" Foreground="#555"/>
-                            <TextBlock Text="{Binding Email}" Foreground="#555"/>
-                            <TextBlock Text="Role: Student" Foreground="#3498DB"/>
-                            <TextBlock Text="Account Status: Active" Foreground="Green"/>
+                        <!-- Datos del usuario -->
+                        <StackPanel VerticalAlignment="Center" >
+                            <TextBlock Text="{Binding FullName}" FontSize="20" FontWeight="Bold" Foreground="{StaticResource OnSurfaceBrush}" />
+                            <TextBlock Text="{Binding EnrollmentNum}" Foreground="{StaticResource SecondaryBrush}" />
+                            <TextBlock Text="{Binding Email}" Foreground="{StaticResource SecondaryBrush}" />
+                            <TextBlock Text="Rol: Estudiante" Foreground="{StaticResource PrimaryBrush}" />
+                            <TextBlock Text="Estado de Cuenta: Activa" Foreground="Green" />
                         </StackPanel>
                     </StackPanel>
                 </Border>
 
-                <!-- Tabla de préstamos activos -->
-                <TextBlock Text="Active Loans" FontSize="18" FontWeight="SemiBold" Margin="0 0 0 10"/>
-                <DataGrid x:Name="LoansDataGrid" AutoGenerateColumns="False" Height="250"
-                          CanUserAddRows="False" IsReadOnly="True"
-                          Background="White" RowBackground="WhiteSmoke" 
-                          AlternatingRowBackground="#EFEFEF" GridLinesVisibility="None"
-                          ColumnHeaderHeight="30">
+                <!-- Título de préstamos -->
+                <TextBlock Text="Préstamos Activos"
+                           FontSize="18"
+                           FontWeight="SemiBold"
+                           Margin="0 0 0 10"
+                           Foreground="{StaticResource OnBackgroundBrush}"/>
+
+                <!-- Tabla de préstamos -->
+                <DataGrid x:Name="LoansDataGrid"
+                          AutoGenerateColumns="False"
+                          CanUserAddRows="False"
+                          IsReadOnly="True"
+                          Height="250"
+                          Background="{StaticResource SurfaceBrush}"
+                          RowBackground="{x:Null}"
+                          AlternatingRowBackground="{StaticResource AlternateRowBrush}"
+                          GridLinesVisibility="None"
+                          ColumnHeaderHeight="32"
+                          HeadersVisibility="Column"
+                          Margin="0 10 0 0"
+                          BorderThickness="0">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Book Title" Binding="{Binding BookTitle}" Width="*" />
-                        <DataGridTextColumn Header="Loan Date" Binding="{Binding LoanDate}" Width="Auto"/>
-                        <DataGridTextColumn Header="Due Date" Binding="{Binding DueDate}" Width="Auto"/>
-                        <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="Auto"/>
+                        <DataGridTextColumn Header="Título" Binding="{Binding BookTitle}" Width="*" />
+                        <DataGridTextColumn Header="Fecha Préstamo" Binding="{Binding LoanDate}" Width="Auto"/>
+                        <DataGridTextColumn Header="Fecha Límite" Binding="{Binding DueDate}" Width="Auto"/>
+                        <DataGridTextColumn Header="Estado" Binding="{Binding Status}" Width="Auto"/>
                     </DataGrid.Columns>
                 </DataGrid>
 

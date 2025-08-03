@@ -44,7 +44,7 @@ namespace NexusLibrarySystem
 
         private void Books_Click(object sender, RoutedEventArgs e)
         {
-            MainFrame.Navigate(new BooksPage(_currentUser)); // ✅ Ahora sí tienes acceso al usuario
+            MainFrame.Navigate(new BooksPage(_currentUser));
         }
 
         private void Users_Click(object sender, RoutedEventArgs e)
@@ -54,7 +54,7 @@ namespace NexusLibrarySystem
 
         private void Profile_Click(object sender, RoutedEventArgs e)
         {
-            MainFrame.Navigate(new ProfilePage());
+            MainFrame.Navigate(new ProfilePage(_currentUser));
         }
 
         private void Logout_Click(object sender, RoutedEventArgs e)
