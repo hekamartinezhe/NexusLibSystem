@@ -141,7 +141,14 @@
             </Setter.Value>
         </Setter>
     </Style>
-
+    <Style x:Key="UserNameTextBlockStyle" TargetType="TextBlock">
+        <Setter Property="HorizontalAlignment" Value="Right"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Margin" Value="0,0,20,0"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="FontSize" Value="14"/>
+    </Style>
     <!-- Rounded PasswordBox Style -->
     <Style x:Key="RoundedPasswordBox" TargetType="PasswordBox" BasedOn="{StaticResource StyledPasswordBox}">
         <Setter Property="Height" Value="35"/>

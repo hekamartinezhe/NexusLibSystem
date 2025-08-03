@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using NexusLibrarySystem.Data;
 using NexusLibrarySystem.Models;
 
@@ -15,14 +16,16 @@ namespace NexusLibrarySystem.Views
         {
             string enrollment = TxtEnrollment.Text.Trim();
             string password = TxtPassword.Password.Trim();
-
+            Console.WriteLine($"Enrollment: '{enrollment}'\nPassword: '{password}'\nHash: '{Database.HashPassword(password)}'");
             if (string.IsNullOrWhiteSpace(enrollment) || string.IsNullOrWhiteSpace(password))
             {
                 LblError.Text = "Please enter both enrollment number and password.";
                 return;
             }
+           
 
             User user = UserData.ValidateLogin(enrollment, password);
+
 
             if (user != null)
             {

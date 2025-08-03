@@ -14,7 +14,7 @@ namespace NexusLibrarySystem.Data
                 conn.Open();
                 string query = @"SELECT userId, fullName, userRole 
                                  FROM Users 
-                                 WHERE enrollementNum = @enrollment AND pswdHash = @password";
+                                 WHERE enrollmentNum = @enrollment AND pswdHash = @password";
 
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
