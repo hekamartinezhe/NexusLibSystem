@@ -47,7 +47,7 @@ namespace NexusLibrarySystem.Data
             using (SqlConnection conn = Database.GetConnection())
             {
                 conn.Open();
-                string query = "SELECT userId, fullName, userRole, enrollementNum FROM Users";
+                string query = "SELECT userId, fullName, userRole, enrollmentNum FROM Users";
 
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 using (SqlDataReader reader = cmd.ExecuteReader())

@@ -16,7 +16,7 @@ namespace NexusLibrarySystem.Views
         {
             string enrollment = TxtEnrollment.Text.Trim();
             string password = TxtPassword.Password.Trim();
-            Console.WriteLine($"Enrollment: '{enrollment}'\nPassword: '{password}'\nHash: '{Database.HashPassword(password)}'");
+             //Console.WriteLine($"Enrollment: '{enrollment}'\nPassword: '{password}'\nHash: '{Database.HashPassword(password)}'");
             if (string.IsNullOrWhiteSpace(enrollment) || string.IsNullOrWhiteSpace(password))
             {
                 LblError.Text = "Please enter both enrollment number and password.";
