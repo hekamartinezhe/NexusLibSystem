@@ -59,11 +59,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\Admin.cs" />
     <Compile Include="Models\Book.cs" />
     <Compile Include="Models\BookData.cs" />
     <Compile Include="Models\Database.cs" />
     <Compile Include="Models\Loan.cs" />
     <Compile Include="Models\LoanData.cs" />
+    <Compile Include="Models\Sudent.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserData.cs" />
     <Compile Include="Views\AddEditBookWindow.xaml.cs">

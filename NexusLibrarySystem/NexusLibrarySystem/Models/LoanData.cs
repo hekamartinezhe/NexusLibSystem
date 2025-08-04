@@ -15,7 +15,7 @@ namespace NexusLibrarySystem.Data
             {
                 conn.Open();
                 string query = @"
-                    SELECT l.LoanId, l.UserId, l.BookId, l.LoanDate, l.DueDate, l.ReturnDate, l.Status, l.FineAmount,
+                    SELECT l.LoanId, l.UserId, l.BookId, l.LoanDate, l.DueDate, l.ReturnDate, l.Status, l.FineAmount, l.renewed,
                            b.Title AS BookTitle, u.FullName AS UserName
                     FROM Loans l
                     INNER JOIN Books b ON l.BookId = b.BookId
@@ -39,6 +39,7 @@ namespace NexusLibrarySystem.Data
                             ReturnDate = reader["ReturnDate"] as DateTime?,
                             Status = reader["Status"].ToString(),
                             FineAmount = (decimal)reader["FineAmount"],
+                            Renewed = (bool)reader["renewed"],
                             BookTitle = reader["BookTitle"].ToString(),
                             UserName = reader["UserName"].ToString()
                         });
@@ -49,36 +50,81 @@ namespace NexusLibrarySystem.Data
             return loans;
         }
 
+        public static bool RenewLoan(int loanId)
+        {
+            using (var conn = Database.GetConnection())
+            {
+                conn.Open();
+
+                // Comprobar estado y si ya fue renovado
+                string selectQuery = @"SELECT status, renewed FROM Loans WHERE loanId = @loanId";
+
+                using (var selectCmd = new SqlCommand(selectQuery, conn))
+                {
+                    selectCmd.Parameters.AddWithValue("@loanId", loanId);
+                    using (var reader = selectCmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            string status = reader.GetString(0);
+                            bool renewed = reader.GetBoolean(1);
+
+                            if (status != "OnLoan" || renewed)
+                                return false;
+                        }
+                        else
+                        {
+                            return false; // préstamo no encontrado
+                        }
+                    }
+                }
+
+                // Actualizar préstamo: extender dueDate 7 días y marcar renovado
+                string updateQuery = @"
+                    UPDATE Loans 
+                    SET dueDate = DATEADD(DAY, 7, dueDate),
+                        renewed = 1
+                    WHERE loanId = @loanId";
+
+                using (var updateCmd = new SqlCommand(updateQuery, conn))
+                {
+                    updateCmd.Parameters.AddWithValue("@loanId", loanId);
+                    int rowsAffected = updateCmd.ExecuteNonQuery();
+                    return rowsAffected > 0;
+                }
+            }
+        }
+
         public static void UpdateLoanStatusesAndBlockUsers()
         {
             using (var conn = Database.GetConnection())
             {
                 conn.Open();
 
-                //Actualiza solo préstamos aún activos que ya están vencidos y sin devolución
+                // Actualiza préstamos vencidos sin devolución
                 string updateOverdue = @"
-            UPDATE Loans
-            SET Status = 'Overdue',
-                FineAmount = DATEDIFF(DAY, DueDate, GETDATE()) * 10
-            WHERE Status = 'OnLoan' 
-              AND DueDate < GETDATE() 
-              AND ReturnDate IS NULL";
+                    UPDATE Loans
+                    SET Status = 'Overdue',
+                        FineAmount = DATEDIFF(DAY, DueDate, GETDATE()) * 10
+                    WHERE Status = 'OnLoan' 
+                      AND DueDate < GETDATE() 
+                      AND ReturnDate IS NULL";
 
                 using (var cmd = new SqlCommand(updateOverdue, conn))
                 {
                     cmd.ExecuteNonQuery();
                 }
 
-                //Solo bloquea usuarios que estén activos y tengan multas activas
+                // Bloquea usuarios activos con multas activas
                 string blockUsers = @"
-            UPDATE Users
-            SET IsActive = 0
-            WHERE IsActive = 1 AND EXISTS (
-                SELECT 1 FROM Loans
-                WHERE Loans.userId = Users.userId
-                  AND Loans.FineAmount > 0
-                  AND Loans.ReturnDate IS NULL
-            )";
+                    UPDATE Users
+                    SET IsActive = 0
+                    WHERE IsActive = 1 AND EXISTS (
+                        SELECT 1 FROM Loans
+                        WHERE Loans.userId = Users.userId
+                          AND Loans.FineAmount > 0
+                          AND Loans.ReturnDate IS NULL
+                    )";
 
                 using (var cmd = new SqlCommand(blockUsers, conn))
                 {
@@ -94,8 +140,8 @@ namespace NexusLibrarySystem.Data
                 conn.Open();
 
                 string insertLoan = @"
-                    INSERT INTO Loans (UserId, BookId, LoanDate, DueDate, Status, FineAmount)
-                    VALUES (@UserId, @BookId, GETDATE(), DATEADD(DAY, 7, GETDATE()), 'OnLoan', 0)";
+                    INSERT INTO Loans (UserId, BookId, LoanDate, DueDate, Status, FineAmount, renewed)
+                    VALUES (@UserId, @BookId, GETDATE(), DATEADD(DAY, 7, GETDATE()), 'OnLoan', 0, 0)";
 
                 using (var cmd = new SqlCommand(insertLoan, conn))
                 {
