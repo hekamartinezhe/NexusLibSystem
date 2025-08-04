@@ -14,6 +14,10 @@
             <Button Content="Add User" Style="{StaticResource MaterialButton}" Width="100" Margin="0,0,10,0" Click="AddUser_Click"/>
             <Button Content="Edit User" Style="{StaticResource MaterialButton}" Width="100" Margin="0,0,10,0" Click="EditUser_Click"/>
             <Button Content="Delete User" Style="{StaticResource MaterialButton}" Width="100" Margin="0,0,10,0" Click="DeleteUser_Click"/>
+            <Button Content="Activate User" Style="{StaticResource MaterialButton}" Width="120" Margin="0,0,10,0" Click="ActivateUser_Click"/>
+            <Button Content="Deactivate User" Style="{StaticResource MaterialButton}" Width="130" Margin="0,0,10,0" Click="DeactivateUser_Click"/>
+
+            <Button Content="Loans" Style="{StaticResource MaterialButton}" Width="120" Click="ViewLoans_Click"/>
             <Button Content="Refresh" Style="{StaticResource MaterialButton}" Width="100" Click="RefreshUsers_Click"/>
         </StackPanel>
 
@@ -43,6 +47,7 @@
                     <DataGridCheckBoxColumn Header="Active" Binding="{Binding IsActive}" Width="80"/>
                 </DataGrid.Columns>
             </DataGrid>
+            
         </Border>
     </Grid>
 </Page>

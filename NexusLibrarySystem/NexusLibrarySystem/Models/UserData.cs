@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿// UserData.cs
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using NexusLibrarySystem.Models;
 
@@ -65,7 +66,7 @@ namespace NexusLibrarySystem.Data
             using (var conn = Database.GetConnection())
             {
                 conn.Open();
-                string query = "SELECT userId, fullName, userRole, enrollmentNum, isActive FROM Users";
+                string query = "SELECT userId, fullName, userRole, enrollmentNum, isActive, isDeleted FROM Users WHERE isDeleted = 0";
 
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 using (SqlDataReader reader = cmd.ExecuteReader())
@@ -74,34 +75,33 @@ namespace NexusLibrarySystem.Data
                     {
                         string role = reader.GetString(2).ToLower();
 
+                        User user;
                         if (role == "admin")
                         {
-                            users.Add(new Admin
-                            {
-                                UserId = reader.GetInt32(0),
-                                FullName = reader.GetString(1),
-                                Role = "Admin",
-                                EnrollmentNum = reader.GetString(3),
-                                IsActive = reader.GetBoolean(4)
-                            });
+                            user = new Admin();
+                            user.Role = "Admin";
                         }
                         else
                         {
-                            users.Add(new Student
-                            {
-                                UserId = reader.GetInt32(0),
-                                FullName = reader.GetString(1),
-                                Role = "Student",
-                                EnrollmentNum = reader.GetString(3),
-                                IsActive = reader.GetBoolean(4)
-                            });
+                            user = new Student();
+                            user.Role = "Student";
                         }
+
+                        user.UserId = reader.GetInt32(0);
+                        user.FullName = reader.GetString(1);
+                        user.EnrollmentNum = reader.GetString(3);
+                        user.IsActive = reader.GetBoolean(4);
+                        user.IsDeleted = reader.GetBoolean(5);
+
+                        users.Add(user);
                     }
                 }
             }
 
             return users;
         }
+
+
 
         public static bool AddUser(User user, string plainPassword)
         {
@@ -158,7 +158,38 @@ namespace NexusLibrarySystem.Data
             using (var conn = Database.GetConnection())
             {
                 conn.Open();
-                string query = "DELETE FROM Users WHERE userId = @userId";
+                string query = "UPDATE Users SET IsActive = 0 WHERE userId = @userId";
+
+                using (var cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@userId", userId);
+                    int rows = cmd.ExecuteNonQuery();
+                    return rows > 0;
+                }
+            }
+        }
+
+        public static bool MarkUserAsDeleted(int userId)
+        {
+            using (var conn = Database.GetConnection())
+            {
+                conn.Open();
+                string query = "UPDATE Users SET isDeleted = 1 WHERE userId = @userId";
+
+                using (var cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@userId", userId);
+                    return cmd.ExecuteNonQuery() > 0;
+                }
+            }
+        }
+
+        public static bool ActivateUser(int userId)
+        {
+            using (var conn = Database.GetConnection())
+            {
+                conn.Open();
+                string query = "UPDATE Users SET IsActive = 1 WHERE userId = @userId";
 
                 using (var cmd = new SqlCommand(query, conn))
                 {
@@ -183,6 +214,20 @@ namespace NexusLibrarySystem.Data
                 }
             }
         }
+        public static bool DeactivateUser(int userId)
+        {
+            using (var conn = Database.GetConnection())
+            {
+                conn.Open();
+                string query = @"UPDATE Users SET isActive = 0 WHERE userId = @userId";
+
+                using (var cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@userId", userId);
+                    int rows = cmd.ExecuteNonQuery();
+                    return rows > 0;
+                }
+            }
+        }
     }
 }
-

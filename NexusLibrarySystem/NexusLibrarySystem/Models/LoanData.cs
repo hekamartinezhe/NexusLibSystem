@@ -153,5 +153,24 @@ namespace NexusLibrarySystem.Data
                 }
             }
         }
+        public static bool MarkLoanReturned(int loanId)
+        {
+            using (var conn = Database.GetConnection())
+            {
+                conn.Open();
+                string query = @"
+            UPDATE Loans 
+            SET ReturnDate = GETDATE(), 
+                Status = 'Returned' 
+            WHERE LoanId = @loanId";
+
+                using (var cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@loanId", loanId);
+                    int rows = cmd.ExecuteNonQuery();
+                    return rows > 0;
+                }
+            }
+        }
     }
 }
