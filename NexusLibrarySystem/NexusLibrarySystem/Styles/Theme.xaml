@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <!-- Colors -->
+    <!-- ::::::::::::::::::: COLORS ::::::::::::::::::: -->
     <Color x:Key="PrimaryColor">#6200EE</Color>
     <Color x:Key="PrimaryVariantColor">#3700B3</Color>
     <Color x:Key="SecondaryColor">#03DAC5</Color>
@@ -10,28 +10,29 @@
     <Color x:Key="OnPrimaryColor">#FFFFFF</Color>
     <Color x:Key="OnBackgroundColor">#121212</Color>
 
-    <!-- Brushes -->
+    <!-- ::::::::::::::::::: BRUSHES ::::::::::::::::::: -->
     <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource PrimaryColor}"/>
     <SolidColorBrush x:Key="PrimaryVariantBrush" Color="{StaticResource PrimaryVariantColor}"/>
     <SolidColorBrush x:Key="SecondaryBrush" Color="{StaticResource SecondaryColor}"/>
     <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource BackgroundColor}"/>
     <SolidColorBrush x:Key="SurfaceBrush" Color="{StaticResource SurfaceColor}"/>
-    <SolidColorBrush x:Key="OnSurfaceBrush" Color="#222222" />
+    <SolidColorBrush x:Key="OnSurfaceBrush" Color="#222222"/>
     <SolidColorBrush x:Key="OnPrimaryBrush" Color="{StaticResource OnPrimaryColor}"/>
     <SolidColorBrush x:Key="OnBackgroundBrush" Color="{StaticResource OnBackgroundColor}"/>
     <SolidColorBrush x:Key="CardBackgroundBrush" Color="#F7F9F9"/>
-    <SolidColorBrush x:Key="AlternateRowBrush" Color="#FFF6F6F6" />
+    <SolidColorBrush x:Key="AlternateRowBrush" Color="#FFF6F6F6"/>
 
-    <!-- Card shadow effect for borders and containers -->
+    <!-- ::::::::::::::::::: SHADOW ::::::::::::::::::: -->
     <DropShadowEffect x:Key="CardShadow"
-                  BlurRadius="8"
-                  ShadowDepth="2"
-                  Direction="270"
-                  Opacity="0.2"
-                  Color="Black"/>
+                      BlurRadius="8"
+                      ShadowDepth="2"
+                      Direction="270"
+                      Opacity="0.2"
+                      Color="Black"/>
 
+    <!-- ::::::::::::::::::: BUTTONS ::::::::::::::::::: -->
 
-    <!-- MaterialButton simulation-->
+    <!-- Base MaterialButton -->
     <Style x:Key="MaterialButton" TargetType="Button">
         <Setter Property="Background" Value="{StaticResource PrimaryBrush}"/>
         <Setter Property="Foreground" Value="{StaticResource OnPrimaryBrush}"/>
@@ -58,6 +59,17 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+
+    <!-- CancelButton basado en MaterialButton -->
+    <Style x:Key="CancelButtonStyle" TargetType="Button" BasedOn="{StaticResource MaterialButton}">
+        <Setter Property="Background" Value="#FFB71C1C"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="BorderBrush" Value="#FFB71C1C"/>
+        <Setter Property="Margin" Value="0,10,0,0"/>
+        <Setter Property="Padding" Value="10,4"/>
+    </Style>
+
+    <!-- Botón de navegación -->
     <Style x:Key="NavButtonStyle" TargetType="Button">
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="Background" Value="Transparent"/>
@@ -73,9 +85,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Border Background="{TemplateBinding Background}" 
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        CornerRadius="8">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="8">
                         <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center"/>
                     </Border>
                 </ControlTemplate>
@@ -88,7 +98,7 @@
         </Style.Triggers>
     </Style>
 
-    <!-- TextBox Style -->
+    <!-- ::::::::::::::::::: TEXTBOX ::::::::::::::::::: -->
     <Style x:Key="StyledTextBox" TargetType="TextBox">
         <Setter Property="FontFamily" Value="Segoe UI"/>
         <Setter Property="FontSize" Value="14"/>
@@ -101,7 +111,25 @@
         <Setter Property="Height" Value="32"/>
     </Style>
 
-    <!-- PasswordBox Style -->
+    <Style x:Key="RoundedTextBox" TargetType="TextBox" BasedOn="{StaticResource StyledTextBox}">
+        <Setter Property="Height" Value="35"/>
+        <Setter Property="Margin" Value="0,0,0,10"/>
+        <Setter Property="Padding" Value="10,5"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Border CornerRadius="8"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <ScrollViewer x:Name="PART_ContentHost"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ::::::::::::::::::: PASSWORDBOX ::::::::::::::::::: -->
     <Style x:Key="StyledPasswordBox" TargetType="PasswordBox">
         <Setter Property="FontFamily" Value="Segoe UI"/>
         <Setter Property="FontSize" Value="14"/>
@@ -113,33 +141,26 @@
         <Setter Property="Margin" Value="0,5,0,15"/>
         <Setter Property="Height" Value="32"/>
     </Style>
-    <!-- Estilo de cabecera de DataGrid -->
-    <Style x:Key="StandardDataGridHeaderStyle" TargetType="DataGridColumnHeader">
-        <Setter Property="Background" Value="{StaticResource PrimaryBrush}"/>
-        <Setter Property="Foreground" Value="{StaticResource OnPrimaryBrush}"/>
-        <Setter Property="FontWeight" Value="Bold"/>
+
+    <Style x:Key="RoundedPasswordBox" TargetType="PasswordBox" BasedOn="{StaticResource StyledPasswordBox}">
+        <Setter Property="Height" Value="35"/>
+        <Setter Property="Margin" Value="0,0,0,20"/>
         <Setter Property="Padding" Value="10,5"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="PasswordBox">
+                    <Border CornerRadius="8"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <ScrollViewer x:Name="PART_ContentHost"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
-    <!-- Estilo general de DataGrid -->
-    <Style x:Key="DataGridStandardStyle" TargetType="DataGrid">
-        <Setter Property="AutoGenerateColumns" Value="False"/>
-        <Setter Property="CanUserAddRows" Value="False"/>
-        <Setter Property="IsReadOnly" Value="True"/>
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="RowBackground" Value="White"/>
-        <Setter Property="AlternatingRowBackground" Value="#F5F5F5"/>
-        <Setter Property="GridLinesVisibility" Value="Horizontal"/>
-        <Setter Property="HeadersVisibility" Value="Column"/>
-        <Setter Property="FontSize" Value="14"/>
-        <Setter Property="RowHeight" Value="35"/>
-        <Setter Property="ColumnHeaderHeight" Value="40"/>
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="SelectionMode" Value="Single"/>
-        <Setter Property="SelectionUnit" Value="FullRow"/>
-    </Style>
-
-    <!-- ComboBox Style -->
+    <!-- ::::::::::::::::::: COMBOBOX ::::::::::::::::::: -->
     <Style x:Key="StyledComboBox" TargetType="ComboBox">
         <Setter Property="FontFamily" Value="Segoe UI"/>
         <Setter Property="FontSize" Value="14"/>
@@ -152,58 +173,6 @@
         <Setter Property="Height" Value="32"/>
     </Style>
 
-    <!-- Label Style -->
-    <Style x:Key="StyledLabel" TargetType="Label">
-        <Setter Property="FontFamily" Value="Segoe UI"/>
-        <Setter Property="FontSize" Value="13"/>
-        <Setter Property="Foreground" Value="{StaticResource OnBackgroundBrush}"/>
-        <Setter Property="Margin" Value="0,10,0,2"/>
-    </Style>
-    <!-- Rounded TextBox Style -->
-    <Style x:Key="RoundedTextBox" TargetType="TextBox" BasedOn="{StaticResource StyledTextBox}">
-        <Setter Property="Height" Value="35"/>
-        <Setter Property="Margin" Value="0,0,0,10"/>
-        <Setter Property="Padding" Value="10,5"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="TextBox">
-                    <Border CornerRadius="8"
-                        Background="{TemplateBinding Background}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}">
-                        <ScrollViewer x:Name="PART_ContentHost"/>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-    <Style x:Key="UserNameTextBlockStyle" TargetType="TextBlock">
-        <Setter Property="HorizontalAlignment" Value="Right"/>
-        <Setter Property="Foreground" Value="White"/>
-        <Setter Property="Margin" Value="0,0,20,0"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="FontWeight" Value="SemiBold"/>
-        <Setter Property="FontSize" Value="14"/>
-    </Style>
-    <!-- Rounded PasswordBox Style -->
-    <Style x:Key="RoundedPasswordBox" TargetType="PasswordBox" BasedOn="{StaticResource StyledPasswordBox}">
-        <Setter Property="Height" Value="35"/>
-        <Setter Property="Margin" Value="0,0,0,20"/>
-        <Setter Property="Padding" Value="10,5"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="PasswordBox">
-                    <Border CornerRadius="8"
-                        Background="{TemplateBinding Background}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}">
-                        <ScrollViewer x:Name="PART_ContentHost"/>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-<!-- Rounded ComboBox style -->
     <Style x:Key="RoundedComboBox" TargetType="ComboBox">
         <Setter Property="Foreground" Value="{StaticResource OnBackgroundBrush}" />
         <Setter Property="Background" Value="{StaticResource SurfaceBrush}" />
@@ -219,57 +188,57 @@
                 <ControlTemplate TargetType="ComboBox">
                     <Grid>
                         <Border x:Name="Border"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="6"
-                            SnapsToDevicePixels="True" />
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="6"
+                                SnapsToDevicePixels="True" />
 
                         <DockPanel Margin="5,0,25,0">
                             <ContentPresenter x:Name="ContentSite"
-                               IsHitTestVisible="False"
-                               Content="{TemplateBinding SelectionBoxItem}"
-                               ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
-                               ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
-                               Margin="10,0,35,0"
-                               VerticalAlignment="Center"
-                               HorizontalAlignment="Left" />
+                                              IsHitTestVisible="False"
+                                              Content="{TemplateBinding SelectionBoxItem}"
+                                              ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                              ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                              Margin="10,0,35,0"
+                                              VerticalAlignment="Center"
+                                              HorizontalAlignment="Left" />
                         </DockPanel>
 
                         <ToggleButton DockPanel.Dock="Right"
-                                  Focusable="False"
-                                  IsChecked="{Binding Path=IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
-                                  ClickMode="Press"
-                                  Background="Transparent"
-                                  BorderThickness="0"
-                                  HorizontalAlignment="Right"
-                                  VerticalAlignment="Center"
-                                  Width="20"
-                                  Height="20"
-                                  Margin="0,0,5,0">
+                                      Focusable="False"
+                                      IsChecked="{Binding Path=IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
+                                      ClickMode="Press"
+                                      Background="Transparent"
+                                      BorderThickness="0"
+                                      HorizontalAlignment="Right"
+                                      VerticalAlignment="Center"
+                                      Width="20"
+                                      Height="20"
+                                      Margin="0,0,5,0">
                             <Path Data="M 0 0 L 4 4 L 8 0 Z"
-                              Fill="{StaticResource OnBackgroundBrush}"
-                              HorizontalAlignment="Center"
-                              VerticalAlignment="Center"/>
+                                  Fill="{StaticResource OnBackgroundBrush}"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"/>
                         </ToggleButton>
 
                         <Popup Name="Popup"
-                           Placement="Bottom"
-                           IsOpen="{TemplateBinding IsDropDownOpen}"
-                           AllowsTransparency="True"
-                           Focusable="False"
-                           PopupAnimation="Slide">
+                               Placement="Bottom"
+                               IsOpen="{TemplateBinding IsDropDownOpen}"
+                               AllowsTransparency="True"
+                               Focusable="False"
+                               PopupAnimation="Slide">
                             <Grid SnapsToDevicePixels="True"
-                              MinWidth="{TemplateBinding ActualWidth}"
-                              MaxHeight="200"
-                              Background="{StaticResource SurfaceBrush}"
-                              Margin="0,2,0,0">
+                                  MinWidth="{TemplateBinding ActualWidth}"
+                                  MaxHeight="200"
+                                  Background="{StaticResource SurfaceBrush}"
+                                  Margin="0,2,0,0">
                                 <Border BorderBrush="{TemplateBinding BorderBrush}"
-                                    BorderThickness="1"
-                                    CornerRadius="4"
-                                    Background="{StaticResource SurfaceBrush}">
+                                        BorderThickness="1"
+                                        CornerRadius="4"
+                                        Background="{StaticResource SurfaceBrush}">
                                     <ScrollViewer Margin="0"
-                                              SnapsToDevicePixels="True">
+                                                  SnapsToDevicePixels="True">
                                         <ItemsPresenter KeyboardNavigation.DirectionalNavigation="Contained" />
                                     </ScrollViewer>
                                 </Border>
@@ -288,5 +257,46 @@
         </Setter>
     </Style>
 
+    <!-- ::::::::::::::::::: LABELS & TEXTBLOCKS ::::::::::::::::::: -->
+    <Style x:Key="StyledLabel" TargetType="Label">
+        <Setter Property="FontFamily" Value="Segoe UI"/>
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="Foreground" Value="{StaticResource OnBackgroundBrush}"/>
+        <Setter Property="Margin" Value="0,10,0,2"/>
+    </Style>
+
+    <Style x:Key="UserNameTextBlockStyle" TargetType="TextBlock">
+        <Setter Property="HorizontalAlignment" Value="Right"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Margin" Value="0,0,20,0"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="FontSize" Value="14"/>
+    </Style>
+
+    <!-- ::::::::::::::::::: DATAGRID ::::::::::::::::::: -->
+    <Style x:Key="StandardDataGridHeaderStyle" TargetType="DataGridColumnHeader">
+        <Setter Property="Background" Value="{StaticResource PrimaryBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource OnPrimaryBrush}"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Padding" Value="10,5"/>
+    </Style>
+
+    <Style x:Key="DataGridStandardStyle" TargetType="DataGrid">
+        <Setter Property="AutoGenerateColumns" Value="False"/>
+        <Setter Property="CanUserAddRows" Value="False"/>
+        <Setter Property="IsReadOnly" Value="True"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="RowBackground" Value="White"/>
+        <Setter Property="AlternatingRowBackground" Value="#F5F5F5"/>
+        <Setter Property="GridLinesVisibility" Value="Horizontal"/>
+        <Setter Property="HeadersVisibility" Value="Column"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="RowHeight" Value="35"/>
+        <Setter Property="ColumnHeaderHeight" Value="40"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="SelectionMode" Value="Single"/>
+        <Setter Property="SelectionUnit" Value="FullRow"/>
+    </Style>
 
 </ResourceDictionary>
