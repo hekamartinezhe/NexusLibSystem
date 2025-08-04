@@ -66,10 +66,18 @@ namespace NexusLibrarySystem.Views
 
             if (BooksGrid.SelectedItem is Book selectedBook)
             {
+                if (selectedBook.Inventory <= 0)
+                {
+                    MessageBox.Show("No copies available for this book.", "Out of Stock", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
                 bool success = LoanData.RegisterLoan(_currentUser.UserId, selectedBook.Id);
+
                 if (success)
                 {
                     MessageBox.Show($"Book '{selectedBook.Title}' loaned successfully.", "Loan Book");
+                    LoadBooks(SearchBox.Text.Trim()); // Refresh DataGrid with current filter
                 }
                 else
                 {
