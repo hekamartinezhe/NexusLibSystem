@@ -1,6 +1,7 @@
 ﻿<Page x:Class="NexusLibrarySystem.Views.ProfilePage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:system="clr-namespace:System;assembly=mscorlib"
       Title="Profile">
 
     <Grid Background="{StaticResource BackgroundBrush}" Margin="20">
@@ -10,16 +11,16 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Perfil del Usuario"
+        <TextBlock Text="User Profile"
                    FontSize="28"
                    FontWeight="Bold"
                    Foreground="{StaticResource PrimaryBrush}"
                    Margin="0,0,0,20"/>
 
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Width="600" Margin="0 0 0 40">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Width="640" Margin="0 0 0 40">
 
-                <!-- Panel de perfil -->
+                <!-- Profile panel -->
                 <Border CornerRadius="15"
                         Background="{StaticResource SurfaceBrush}"
                         Padding="20" Margin="0 0 0 20"
@@ -34,13 +35,13 @@
                         <StackPanel VerticalAlignment="Center" >
                             <TextBlock Text="{Binding FullName}" FontSize="20" FontWeight="Bold" Foreground="{StaticResource OnSurfaceBrush}" />
                             <TextBlock Text="{Binding EnrollmentNum}" Foreground="{StaticResource SecondaryBrush}" />
-                            <TextBlock Text="Rol: Estudiante" Foreground="{StaticResource PrimaryBrush}" />
-                            <TextBlock Text="Estado de Cuenta: Activa" Foreground="Green" />
+                            <TextBlock Text="Role: Student" Foreground="{StaticResource PrimaryBrush}" />
+                            <TextBlock Text="Account Status: Active" Foreground="Green" />
                         </StackPanel>
                     </StackPanel>
                 </Border>
 
-                <TextBlock Text="Préstamos Activos"
+                <TextBlock Text="Active Loans"
                            FontSize="20"
                            FontWeight="Bold"
                            Foreground="{StaticResource OnBackgroundBrush}"
@@ -66,10 +67,39 @@
                         </DataGrid.Resources>
 
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Título" Binding="{Binding BookTitle}" Width="*" />
-                            <DataGridTextColumn Header="Fecha Préstamo" Binding="{Binding LoanDate, StringFormat={}{0:dd/MM/yyyy}}" Width="Auto" />
-                            <DataGridTextColumn Header="Fecha Límite" Binding="{Binding DueDate, StringFormat={}{0:dd/MM/yyyy}}" Width="Auto" />
-                            <DataGridTextColumn Header="Estado" Binding="{Binding Status}" Width="Auto" />
+                            <DataGridTextColumn Header="Title" Binding="{Binding BookTitle}" Width="*" />
+                            <DataGridTextColumn Header="Loan Date" Binding="{Binding LoanDate, StringFormat={}{0:dd/MM/yyyy}}" Width="Auto" />
+                            <DataGridTextColumn Header="Due Date" Binding="{Binding DueDate, StringFormat={}{0:dd/MM/yyyy}}" Width="Auto" />
+                            <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="Auto" />
+                            <DataGridTextColumn Header="Fine" Binding="{Binding FineAmount, StringFormat=C}" Width="Auto">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding FineAmount}" Value="0">
+                                                <Setter Property="Foreground" Value="Black"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding FineAmount}">
+                                                <DataTrigger.Value>
+                                                    <system:Decimal>0.00</system:Decimal>
+                                                </DataTrigger.Value>
+                                                <Setter Property="Foreground" Value="Black"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding FineAmount}">
+                                                <DataTrigger.Value>
+                                                    <system:Decimal>0.01</system:Decimal>
+                                                </DataTrigger.Value>
+                                                <Setter Property="Foreground" Value="Red"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding FineAmount}">
+                                                <DataTrigger.Value>
+                                                    <system:Decimal>1</system:Decimal>
+                                                </DataTrigger.Value>
+                                                <Setter Property="Foreground" Value="Red"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
                         </DataGrid.Columns>
                     </DataGrid>
                 </Border>
@@ -78,13 +108,14 @@
 
         <Button x:Name="RenewButton"
                 Grid.Row="2"
-                Content="Renovar Préstamo Seleccionado"
+                Content="Renew Selected Loan"
                 Style="{StaticResource MaterialButton}"
                 FontSize="14"
                 Padding="8,4"
                 Margin="0,10,0,0"
                 HorizontalAlignment="Center"
                 Width="220"
+                Height="40"
                 IsEnabled="False"
                 Click="RenewButton_Click"/>
     </Grid>

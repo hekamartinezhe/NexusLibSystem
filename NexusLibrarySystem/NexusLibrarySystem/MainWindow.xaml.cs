@@ -7,6 +7,7 @@ namespace NexusLibrarySystem
     public partial class MainWindow : Window
     {
         private readonly User _currentUser;
+        public string FullName => _currentUser.FullName;
 
         public MainWindow(User user)
         {
@@ -14,6 +15,7 @@ namespace NexusLibrarySystem
 
             _currentUser = user;
             DataContext = this;
+
 
             AdjustMenuByRole();
 

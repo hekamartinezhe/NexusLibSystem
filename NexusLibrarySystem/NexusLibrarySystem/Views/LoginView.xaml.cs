@@ -32,7 +32,8 @@ namespace NexusLibrarySystem.Views
                 if (!user.IsActive)
                 {
                     LblError.Text = "Your account has been suspended due to late fees, contact library administration.";
-                    return;
+                 
+
                 }
 
                 MainWindow mainWindow = new MainWindow(user);
