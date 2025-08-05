@@ -6,6 +6,8 @@
     public string Author { get; set; }
     public string Publisher { get; set; }
     public string PublicationYear { get; set; }
+    public int BookId { get; set; }
+    public int LoanCount { get; set; }
     public int Inventory { get; set; }          // Nuevo campo
     public int CategoryId { get; set; }
 }

@@ -59,6 +59,46 @@ namespace NexusLibrarySystem.Data
             return null;
         }
 
+        public static User GetMostFrequentUser()
+        {
+            using (var conn = Database.GetConnection())
+            {
+                conn.Open();
+                string query = @"
+            SELECT TOP 1 u.userId, u.fullName, u.userRole, u.enrollmentNum, COUNT(*) AS LoanCount
+            FROM Loans l
+            INNER JOIN Users u ON l.userId = u.userId
+            GROUP BY u.userId, u.fullName, u.userRole, u.enrollmentNum
+            ORDER BY LoanCount DESC";
+
+                using (var cmd = new SqlCommand(query, conn))
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        var role = reader.GetString(2).ToLower();
+
+                        User user;
+                        if (role == "admin")
+                            user = new Admin();
+                        else
+                            user = new Student();
+
+
+                        user.UserId = reader.GetInt32(0);
+                        user.FullName = reader.GetString(1);
+                        user.Role = reader.GetString(2);
+                        user.EnrollmentNum = reader.GetString(3);
+                        user.LoanCount = reader.GetInt32(4);
+                        return user;
+                    }
+                }
+            }
+
+            return null;
+        }
+
+
         public static List<User> GetAllUsers()
         {
             var users = new List<User>();
