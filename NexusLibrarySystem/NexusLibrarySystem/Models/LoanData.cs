@@ -139,9 +139,21 @@ namespace NexusLibrarySystem.Data
             {
                 conn.Open();
 
+                // 1. Check inventory
+                string checkInventory = "SELECT Inventory FROM Books WHERE BookId = @BookId";
+                using (var checkCmd = new SqlCommand(checkInventory, conn))
+                {
+                    checkCmd.Parameters.AddWithValue("@BookId", bookId);
+                    int inventory = (int)checkCmd.ExecuteScalar();
+
+                    if (inventory <= 0)
+                        return false; // Cannot loan, no copies available
+                }
+
+                // 2. Insert loan
                 string insertLoan = @"
-                    INSERT INTO Loans (UserId, BookId, LoanDate, DueDate, Status, FineAmount, renewed)
-                    VALUES (@UserId, @BookId, GETDATE(), DATEADD(DAY, 7, GETDATE()), 'OnLoan', 0, 0)";
+            INSERT INTO Loans (UserId, BookId, LoanDate, DueDate, Status, FineAmount, renewed)
+            VALUES (@UserId, @BookId, GETDATE(), DATEADD(DAY, 7, GETDATE()), 'OnLoan', 0, 0)";
 
                 using (var cmd = new SqlCommand(insertLoan, conn))
                 {
@@ -149,8 +161,23 @@ namespace NexusLibrarySystem.Data
                     cmd.Parameters.AddWithValue("@BookId", bookId);
 
                     int rows = cmd.ExecuteNonQuery();
-                    return rows > 0;
+                    if (rows <= 0)
+                        return false;
                 }
+
+                // 3. Decrease book inventory
+                string updateInventory = @"
+            UPDATE Books
+            SET Inventory = Inventory - 1
+            WHERE BookId = @BookId AND Inventory > 0";
+
+                using (var updateCmd = new SqlCommand(updateInventory, conn))
+                {
+                    updateCmd.Parameters.AddWithValue("@BookId", bookId);
+                    updateCmd.ExecuteNonQuery();
+                }
+
+                return true;
             }
         }
         public static bool MarkLoanReturned(int loanId)
@@ -215,5 +242,6 @@ namespace NexusLibrarySystem.Data
         }
 
     }
-
+    
 }
+
