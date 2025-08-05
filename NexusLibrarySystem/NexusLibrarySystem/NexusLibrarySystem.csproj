@@ -65,6 +65,9 @@
     <Compile Include="Models\Database.cs" />
     <Compile Include="Models\Loan.cs" />
     <Compile Include="Models\LoanData.cs" />
+    <Compile Include="Models\Major.cs" />
+    <Compile Include="Models\MajorData.cs" />
+    <Compile Include="Models\ReportData.cs" />
     <Compile Include="Models\Sudent.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserData.cs" />

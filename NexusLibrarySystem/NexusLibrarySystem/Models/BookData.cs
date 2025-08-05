@@ -128,6 +128,147 @@ namespace NexusLibrarySystem.Models
                 }
             }
         }
+        public static int GetAvailableBooksCount()
+        {
+            using (var conn = Database.GetConnection())
+            {
+                conn.Open();
+                string query = "SELECT COUNT(*) FROM Books WHERE quantity > 0";
+                using (var cmd = new SqlCommand(query, conn))
+                {
+                    return (int)cmd.ExecuteScalar();
+                }
+            }
+        }
+
+        public static Book GetMostLoanedBook()
+        {
+            using (var conn = Database.GetConnection())
+            {
+                conn.Open();
+                string query = @"
+            SELECT TOP 1 b.bookId, b.title, b.author, COUNT(*) AS LoanCount
+            FROM Loans l
+            INNER JOIN Books b ON l.bookId = b.bookId
+            GROUP BY b.bookId, b.title, b.author
+            ORDER BY LoanCount DESC";
+
+                using (var cmd = new SqlCommand(query, conn))
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        return new Book
+                        {
+                            BookId = reader.GetInt32(0),
+                            Title = reader.GetString(1),
+                            Author = reader.GetString(2),
+                            LoanCount = reader.GetInt32(3)
+                        };
+                    }
+                }
+            }
+            return null;
+        }
+
+        public static List<Book> GetTopLoanedBooks(int top)
+        {
+            var books = new List<Book>();
+
+            using (var conn = Database.GetConnection())
+            {
+                conn.Open();
+                string query = @"
+            SELECT TOP (@top) b.bookId, b.title, b.author, COUNT(*) AS LoanCount
+            FROM Loans l
+            INNER JOIN Books b ON l.bookId = b.bookId
+            GROUP BY b.bookId, b.title, b.author
+            ORDER BY LoanCount DESC";
+
+                using (var cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@top", top);
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            books.Add(new Book
+                            {
+                                BookId = reader.GetInt32(0),
+                                Title = reader.GetString(1),
+                                Author = reader.GetString(2),
+                                LoanCount = reader.GetInt32(3)
+                            });
+                        }
+                    }
+                }
+            }
+
+            return books;
+        }
+        public static List<Book> GetAvailableBooks()
+        {
+            var books = new List<Book>();
+            using (var conn = Database.GetConnection())
+            {
+                conn.Open();
+                string query = @"SELECT bookId, isbn, title, author, publisher, publicationYear, inventory
+                         FROM Books
+                         WHERE inventory > 0";
+
+                using (var cmd = new SqlCommand(query, conn))
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        books.Add(new Book
+                        {
+                            Id = reader.GetInt32(0),
+                            ISBN = reader.GetString(1),
+                            Title = reader.GetString(2),
+                            Author = reader.GetString(3),
+                            Publisher = reader.IsDBNull(4) ? "" : reader.GetString(4),
+                            PublicationYear = reader.IsDBNull(5) ? "" : reader.GetString(5),
+                            Inventory = reader.IsDBNull(6) ? 0 : reader.GetInt32(6)
+                        });
+                    }
+                }
+            }
+            return books;
+        }
+
+        public static List<Book> GetMostBorrowedBooks()
+        {
+            var books = new List<Book>();
+            using (var conn = Database.GetConnection())
+            {
+                conn.Open();
+                string query = @"
+            SELECT TOP 5 b.bookId, b.title, b.author, COUNT(*) AS LoanCount
+            FROM Loans l
+            INNER JOIN Books b ON l.bookId = b.bookId
+            GROUP BY b.bookId, b.title, b.author
+            ORDER BY LoanCount DESC";
+
+                using (var cmd = new SqlCommand(query, conn))
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        books.Add(new Book
+                        {
+                            Id = reader.GetInt32(0),
+                            Title = reader.GetString(1),
+                            Author = reader.GetString(2),
+                            LoanCount = reader.GetInt32(3)
+                        });
+                    }
+                }
+            }
+            return books;
+        }
+
 
         /// <summary>
         /// Obtiene todas las categorías (ID + nombre) desde la base de datos.
